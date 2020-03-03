@@ -14,12 +14,12 @@ namespace BulkLoadAssociated
         static public HttpClient client = new HttpClient();
         static public Properties.Settings appConfig = new Properties.Settings();
 
-        public static async Task<ResponseCommon> RegisterAssociated(AssociatedModel workshop)
+        public static async Task<ResponseCommon> RegisterAssociated(AssociatedModel associated)
         {
             ResponseCommon responseCommon = new ResponseCommon();
             try 
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync(appConfig.RegisterAssociatedURL, workshop);
+                HttpResponseMessage response = await client.PostAsJsonAsync(appConfig.RegisterAssociatedURL, associated);
                 response.EnsureSuccessStatusCode();
                 // Regresar respuesta
                 responseCommon = await response.Content.ReadAsAsync<ResponseCommon>();
@@ -28,6 +28,7 @@ namespace BulkLoadAssociated
             catch (Exception ex)
             {
                 responseCommon.explain = ex.Message;
+                Log.WriteLog(ex.Message);
                 responseCommon.status = -1;
                 return responseCommon;
             }

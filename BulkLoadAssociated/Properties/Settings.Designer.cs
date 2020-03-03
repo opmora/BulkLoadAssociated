@@ -25,7 +25,7 @@ namespace BulkLoadAssociated.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44364/swagger/ui/index#!/Onboarding/Onboarding_Register")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44364/api/Onboarding/Register")]
         public string RegisterAssociatedURL {
             get {
                 return ((string)(this["RegisterAssociatedURL"]));

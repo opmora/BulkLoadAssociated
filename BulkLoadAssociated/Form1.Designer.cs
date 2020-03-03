@@ -36,6 +36,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.BtnLoadFile = new System.Windows.Forms.Button();
             this.lblFileName = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(240, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(386, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -65,7 +66,7 @@
             // 
             // BtnExit
             // 
-            this.BtnExit.Location = new System.Drawing.Point(76, 274);
+            this.BtnExit.Location = new System.Drawing.Point(299, 274);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(75, 23);
             this.BtnExit.TabIndex = 1;
@@ -105,17 +106,27 @@
             // lblFileName
             // 
             this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(73, 53);
+            this.lblFileName.Location = new System.Drawing.Point(12, 51);
             this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(35, 13);
+            this.lblFileName.Size = new System.Drawing.Size(29, 13);
             this.lblFileName.TabIndex = 5;
-            this.lblFileName.Text = "label1";
+            this.lblFileName.Text = "File: ";
+            // 
+            // lblMessage
+            // 
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(12, 204);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(56, 13);
+            this.lblMessage.TabIndex = 6;
+            this.lblMessage.Text = "Message: ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 309);
+            this.ClientSize = new System.Drawing.Size(386, 309);
+            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.lblFileName);
             this.Controls.Add(this.BtnLoadFile);
             this.Controls.Add(this.BtnSelectFile);
@@ -141,6 +152,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button BtnLoadFile;
         private System.Windows.Forms.Label lblFileName;
+        private System.Windows.Forms.Label lblMessage;
     }
 }
 

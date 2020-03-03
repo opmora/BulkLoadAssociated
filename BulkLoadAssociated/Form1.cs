@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BulkLoadAssociated.Bean;
+using BulkLoadAssociated.Modelos;
 
 namespace BulkLoadAssociated
 {
@@ -25,14 +26,24 @@ namespace BulkLoadAssociated
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                lblFileName.Text = openFileDialog1.FileName;
+                lblFileName.Text = "File: " + openFileDialog1.FileName;
             }
         }
 
         private async void BtnLoadFile_Click_1(object sender, EventArgs e)
         {
             ResponseCommon response = new ResponseCommon();
-            response = await AssociateManagement.RegisterAssociated(CSV.ConverToAssociated(CSV.ReaCSV(lblFileName.Text)));
+            List<AssociatedModel> associateds = new List<AssociatedModel>();
+            string filePath = lblFileName.Text.Substring(6);
+            lblMessage.Text = "";
+
+            associateds = CSV.ConverToAssociated(CSV.ReaCSV(filePath));
+            foreach (var itemAssociated in associateds)
+            {
+                response = await AssociateManagement.RegisterAssociated(itemAssociated);
+                lblMessage.Text = lblMessage.Text +  "Message: " + response.explain + " status: " + response.status + Environment.NewLine;
+                Log.WriteLog(response.explain + " status: " + response.status);
+            }
         }
         private void BtnExit_Click(object sender, EventArgs e)
         {

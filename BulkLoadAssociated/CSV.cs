@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BulkLoadAssociated.Modelos;
 using BulkLoadAssociated.Bean;
+using System.Globalization;
 
 namespace BulkLoadAssociated
 {
@@ -29,9 +30,10 @@ namespace BulkLoadAssociated
             return parsedData;
         }
 
-        public static AssociatedModel ConverToAssociated (List<string[]> CSVItemsList)
+        public static List<AssociatedModel> ConverToAssociated (List<string[]> CSVItemsList)
         {
-            AssociatedModel associated = new AssociatedModel();
+            List<AssociatedModel> associateds = new List<AssociatedModel>();
+            AssociatedModel associated;
             WorkshopModel workshop = new WorkshopModel();
 
             CatalogCommon rail;
@@ -44,13 +46,14 @@ namespace BulkLoadAssociated
 
             foreach (var row in CSVItemsList)
             {
+                associated = new AssociatedModel();
                 associated._id = row[0];
                 associated.uuid = row[1];
                 associated.user = row[2];
                 associated.password = row[3];
-                associated.creationdate = Convert.ToDateTime(row[4], 'yyyy-mm-dd hh:mm:ss');
+                associated.creationdate = parseToData(row[4]);
                 associated.status = Convert.ToInt32(row[5]);
-                associated.registrationdate = Convert.ToDateTime(row[6]);
+                associated.registrationdate = parseToData(row[6]);
 
                 workshop.uuid = row[7];
                 workshop.workshopname = row[8];
@@ -65,31 +68,16 @@ namespace BulkLoadAssociated
                 workshop.longitude = row[17];
                 workshop.scanner = row[18];
                 //lita de rails
-                rowRail = row[18].Split('|');
-                rail = new CatalogCommon();
-                rail.id = rowRail[0];
-                rail.name = rowRail[2];
-                rail.description = rowRail[3];
-                workshop.rails.Add(rail);
+                workshop.rails = parseCommon(row[19]);
                 //Lista de tools
-                rowTool = row[18].Split('|');
-                tool = new CatalogCommon();
-                tool.id = rowTool[0];
-                tool.name = rowTool[2];
-                tool.description = rowTool[3];
-                workshop.rails.Add(rail);
+                workshop.tools = parseCommon(row[20]);
                 //Specialty list
-                rowSpecialty = row[18].Split('|');
-                specialty = new CatalogCommon();
-                specialty.id = rowSpecialty[0];
-                specialty.name = rowSpecialty[2];
-                specialty.description = rowSpecialty[3];
-                workshop.rails.Add(rail);
+                workshop.specialty = parseCommon(row[21]);
 
-                workshop.registrationdate = Convert.ToDateTime(row[22]);
-                workshop.updatedate = Convert.ToDateTime(row[23]);
-                workshop.closeoffice = Convert.ToDateTime(row[24]);
-                workshop.openoffice = Convert.ToDateTime(row[25]);
+                workshop.registrationdate = parseToData(row[22]);
+                workshop.updatedate = parseToData(row[23]);
+                workshop.closeoffice = parseToData(row[24]);
+                workshop.openoffice = parseToData(row[25]);
                 workshop.days = Convert.ToInt32(row[26]);
                 workshop.status = Convert.ToInt32(row[27]);
                 workshop.available = Convert.ToInt32(row[28]);
@@ -101,9 +89,35 @@ namespace BulkLoadAssociated
 
                 associated.workshopmodel = workshop;
                 associated.tokentemp = row[34];
+
+                associateds.Add(associated);
             }
 
-            return associated;
+            return associateds;
+        }
+
+        public static DateTime parseToData(string date)
+        {
+            return DateTime.ParseExact(date, "yyyy-MM-ddThh:mm:ss.fffZ", CultureInfo.InvariantCulture);
+        }
+
+        public static List<CatalogCommon> parseCommon(string data)
+        {
+            string[] row;
+            CatalogCommon catalogCommon;
+            List<CatalogCommon> commons = new List<CatalogCommon>();
+
+            foreach (var items in data.Split(';'))
+            {
+                catalogCommon = new CatalogCommon();
+                row = data.Split('|');
+                catalogCommon.id = row[0];
+                catalogCommon.name = row[1];
+                catalogCommon.description = row[2];
+                commons.Add(catalogCommon);
+            }   
+
+            return commons;
         }
 
     }
